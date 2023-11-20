@@ -60,8 +60,10 @@ let score = 0; // スコア
 let fruitsInGame = []; // ゲーム中のフルーツを追跡する配列
 
 // 次に落とすフルーツをランダムに選択し、表示する関数
+// 次に落とすフルーツをランダムに選択し、表示する関数（修正）
 function generateFruit() {
-  currentFruitIndex = Math.floor(Math.random() * fruits.length);
+  const maxIndex = fruits.length - 4; // Watermelon を除外した最大インデックス
+  currentFruitIndex = Math.floor(Math.random() * maxIndex); // Watermelon を除外してランダムインデックスを生成
   document.getElementById("next-name").textContent = fruits[currentFruitIndex];
   document.getElementById("next-color").style.backgroundColor =
     colors[currentFruitIndex];
@@ -98,26 +100,40 @@ Events.on(engine, "collisionStart", function (event) {
     let fruitA = fruitsInGame.find((f) => f.body === pair.bodyA);
     let fruitB = fruitsInGame.find((f) => f.body === pair.bodyB);
 
-    // 同じ種類のフルーツが衝突した場合
-    if (fruitA && fruitB && fruitA.index === fruitB.index) {
-      // スコアを更新
-      updateScore(fruitA.index + 1);
+    // Watermelon は特別な扱い
+    const watermelonIndex = fruits.length - 1; // Watermelon のインデックス
 
-      // フルーツを削除
-      World.remove(world, fruitA.body);
-      World.remove(world, fruitB.body);
-      fruitsInGame = fruitsInGame.filter(
-        (f) => f.body !== fruitA.body && f.body !== fruitB.body
-      );
+    if (fruitA && fruitB) {
+      if (fruitA.index === fruitB.index) {
+        // スコアを更新（Watermelon 同士の衝突でも）
+        updateScore(fruitA.index + 1);
 
-      // 新しいフルーツを生成（次のフルーツへ進化）
-      let newIndex = Math.min(fruitA.index + 1, fruits.length - 1);
-      let newFruit = createFruit(
-        newIndex,
-        pair.bodyA.position.x,
-        pair.bodyA.position.y
-      );
-      fruitsInGame.push(newFruit);
+        // Watermelon 同士の衝突では両方を削除
+        if (fruitA.index === watermelonIndex) {
+          World.remove(world, fruitA.body);
+          World.remove(world, fruitB.body);
+          fruitsInGame = fruitsInGame.filter(
+            (f) => f.body !== fruitA.body && f.body !== fruitB.body
+          );
+          continue; // 次の衝突ペアへ
+        }
+
+        // それ以外のフルーツの衝突
+        World.remove(world, fruitA.body);
+        World.remove(world, fruitB.body);
+        fruitsInGame = fruitsInGame.filter(
+          (f) => f.body !== fruitA.body && f.body !== fruitB.body
+        );
+
+        // 新しいフルーツを生成（Melon 同士の衝突で Watermelon を生成）
+        let newIndex = Math.min(fruitA.index + 1, fruits.length - 1);
+        let newFruit = createFruit(
+          newIndex,
+          pair.bodyA.position.x,
+          pair.bodyA.position.y
+        );
+        fruitsInGame.push(newFruit);
+      }
     }
   }
 });
@@ -140,7 +156,7 @@ function createFruit(index, x, y) {
       fillStyle: colors[index],
     },
     friction: 0.005,
-    restitution: 0.3,
+    restitution: 0.5,
   });
   World.add(world, fruit);
   return { body: fruit, index: index };
