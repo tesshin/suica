@@ -130,7 +130,7 @@ const rightWall = Bodies.rectangle(600, 300, 20, 600, { isStatic: true });
 World.add(world, [leftWall, rightWall, ground]); // 壁と床を追加
 
 // フルーツの大きさを設定する配列（サイズ変更）
-const fruitSizes = [600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200];
+const fruitSizes = [400, 800, 1000, 1200, 1400, 1600, 2000, 3000, 4000];
 
 // フルーツの生成関数（大きさを変更）
 function createFruit(index, x, y) {
@@ -144,13 +144,6 @@ function createFruit(index, x, y) {
   });
   World.add(world, fruit);
   return { body: fruit, index: index };
-}
-// フルーツを落とす関数（位置をランダム化）
-function dropFruit() {
-  let xPosition = Math.random() * 600; // x座標をランダムにする
-  let fruit = createFruit(currentFruitIndex, xPosition, 0);
-  fruitsInGame.push(fruit);
-  generateFruit();
 }
 
 // ゲームオーバー判定（修正）
