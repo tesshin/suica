@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>スイカゲーム</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div id="game-container">
+      <div id="score-board">スコア: <span id="score">0</span></div>
+      <div id="next-fruit">
+        ネクスト: <span id="next-name"></span>
+        <span
+          id="next-color"
+          style="
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+          "
+        ></span>
+      </div>
+      <canvas id="game-canvas"></canvas>
+      <button id="drop-button">ランダムで落とす</button>
+      <div id="game-over" style="display: none">ゲームオーバー</div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.16.0/matter.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>
