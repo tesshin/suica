@@ -16,34 +16,34 @@ const render = Render.create({
 });
 
 // ユーザーのクリック（タップ）によってフルーツを落とす
-// ユーザーがキャンバスをクリックしたときにフルーツを落とすイベントリスナーを設定
+// ユーザーのクリック（タップ）によってフルーツを落とすイベントリスナーを設定
 document
   .getElementById("game-canvas")
   .addEventListener("mousedown", function (event) {
     // クリックされた位置を取得
     let rect = render.canvas.getBoundingClientRect();
-    let x = event.clientX - rect.left; // x座標
-    let y = event.clientY - rect.top; // y座標
+    let x = event.clientX - rect.left;
+    let y = event.clientY - rect.top;
 
-    // クリックされた位置にフルーツを生成し、ゲームに追加
+    // その位置にフルーツを生成
     let fruit = createFruit(currentFruitIndex, x, y);
     fruitsInGame.push(fruit);
-    generateFruit(); // 次のフルーツをランダムに選択
+    generateFruit();
   });
 
 // フルーツの種類とそれに対応する色
 const fruits = [
-  "サクランボ",
-  "イチゴ",
-  "ブドウ",
-  "デコポン",
-  "みかん",
-  "リンゴ",
-  "梨",
-  "桃",
-  "パイナップル",
-  "メロン",
-  "スイカ",
+  "Cherry",
+  "Strawberry",
+  "Grape",
+  "Dekopon",
+  "Mandarin",
+  "Apple",
+  "Pear",
+  "Peach",
+  "Pineapple",
+  "Melon",
+  "Watermelon",
 ];
 const colors = [
   "#FF69B4",
@@ -179,8 +179,5 @@ function startGame() {
   Engine.run(engine);
   Render.run(render);
 }
-
-// ボタンイベントリスナー
-document.getElementById("drop-button").addEventListener("click", dropFruit);
 
 startGame();
