@@ -15,7 +15,6 @@ const render = Render.create({
   },
 });
 
-// ユーザーのクリック（タップ）によってフルーツを落とす
 // ユーザーのクリック（タップ）によってフルーツを落とすイベントリスナーを設定
 document
   .getElementById("game-canvas")
@@ -31,13 +30,10 @@ document
     generateFruit();
   });
 
-// フルーツの種類とそれに対応する色
 const fruits = [
   "Cherry",
-  "Strawberry",
   "Grape",
-  "Dekopon",
-  "Mandarin",
+  "Orange",
   "Apple",
   "Pear",
   "Peach",
@@ -45,17 +41,16 @@ const fruits = [
   "Melon",
   "Watermelon",
 ];
+
 const colors = [
-  "#FF69B4",
-  "#FF0000",
-  "#800080",
-  "#FFD700",
+  "#D00000",
+  "#6A0DAD",
   "#FFA500",
-  "#FF0000",
-  "#FFFF00",
-  "#FFC0CB",
-  "#FFD700",
-  "#90EE90",
+  "#EA7373",
+  "#D1E231",
+  "#FFCBA4",
+  "#FFE135",
+  "#98FF98",
   "#008000",
 ];
 
@@ -135,9 +130,7 @@ const rightWall = Bodies.rectangle(600, 300, 20, 600, { isStatic: true });
 World.add(world, [leftWall, rightWall, ground]); // 壁と床を追加
 
 // フルーツの大きさを設定する配列（サイズ変更）
-const fruitSizes = [
-  600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2600,
-];
+const fruitSizes = [600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200];
 
 // フルーツの生成関数（大きさを変更）
 function createFruit(index, x, y) {
